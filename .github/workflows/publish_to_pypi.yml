@@ -46,5 +46,4 @@ jobs:
     
     - name: 🚀 Publicar no PyPI (via OIDC)
       # Ação oficial e recomendada. Ela detecta automaticamente os arquivos em 'dist/'
-      # e usa o 'id-token' configurado nas permissões para autenticação OIDC.
-      uses: pypi/gh-action-pypi-publish@release/v1
+      uses: pypi/gh-action-pypi-publish@main
