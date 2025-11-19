@@ -3,7 +3,7 @@ from dataclasses import is_dataclass
 
 from fastapi import HTTPException
 
-from src.controllers.sales.sales import Checkout
+from qodo.controllers.sales.sales import Checkout
 
 
 class TestProduct(unittest.IsolatedAsyncioTestCase):

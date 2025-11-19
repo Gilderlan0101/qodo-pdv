@@ -3,10 +3,10 @@ import unittest
 from unittest.mock import AsyncMock, patch
 
 # Recarregar o módulo para garantir que os patches funcionem
-import src.controllers.caixa.cash_controller
+import qodo.controllers.caixa.cash_controller
 
-importlib.reload(src.controllers.caixa.cash_controller)
-from src.controllers.caixa.cash_controller import CashController
+importlib.reload(qodo.controllers.caixa.cash_controller)
+from qodo.controllers.caixa.cash_controller import CashController
 
 
 class TestCashControllerDebug(unittest.IsolatedAsyncioTestCase):
@@ -16,7 +16,7 @@ class TestCashControllerDebug(unittest.IsolatedAsyncioTestCase):
         print(f'CashController module: {CashController.__module__}')
         print('===================')
 
-    @patch('src.controllers.caixa.cash_controller.Employees.get_or_none')
+    @patch('qodo.controllers.caixa.cash_controller.Employees.get_or_none')
     async def test_simple_case(self, mock_employee_get):
         """Teste mais simples para isolar o problema"""
         print('=== TEST SIMPLE CASE ===')
@@ -46,7 +46,7 @@ class TestCashControllerDebug(unittest.IsolatedAsyncioTestCase):
     async def test_with_context_manager(self):
         """Teste usando context manager para patches"""
         with patch(
-            'src.controllers.caixa.cash_controller.Employees.get_or_none'
+            'qodo.controllers.caixa.cash_controller.Employees.get_or_none'
         ) as mock_employee_get:
             # Configurar o mock para retornar um AsyncMock
             mock_employee = AsyncMock()
@@ -55,7 +55,7 @@ class TestCashControllerDebug(unittest.IsolatedAsyncioTestCase):
             mock_employee_get.return_value = mock_employee
 
             with patch(
-                'src.controllers.caixa.cash_controller.Caixa.filter'
+                'qodo.controllers.caixa.cash_controller.Caixa.filter'
             ) as mock_caixa_filter:
                 # Configurar chain de métodos
                 mock_filter_instance = AsyncMock()
@@ -63,13 +63,13 @@ class TestCashControllerDebug(unittest.IsolatedAsyncioTestCase):
                 mock_caixa_filter.return_value = mock_filter_instance
 
                 with patch(
-                    'src.controllers.caixa.cash_controller.Caixa.create'
+                    'qodo.controllers.caixa.cash_controller.Caixa.create'
                 ) as mock_caixa_create:
                     mock_caixa = AsyncMock()
                     mock_caixa_create.return_value = mock_caixa
 
                     with patch(
-                        'src.controllers.caixa.cash_controller.CashMovement.create'
+                        'qodo.controllers.caixa.cash_controller.CashMovement.create'
                     ):
                         # ACT
                         result = await CashController.abrir_caixa(

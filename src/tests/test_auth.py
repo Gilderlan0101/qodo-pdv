@@ -2,7 +2,7 @@ import os
 import sys
 import unittest
 
-from src.auth.auth_jwt import get_hashed_password, verify_password
+from qodo.auth.auth_jwt import get_hashed_password, verify_password
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))

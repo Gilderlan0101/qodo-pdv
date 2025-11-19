@@ -3,17 +3,14 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from tortoise import Tortoise
 
-from src.conf.database import TORTOISE_ORM, print_database_info
-from src.controllers.payments.partial.views_depts import ViewsAllDepts
-
-# LOGS
-from src.logs.infos import LOGGER
-from src.routes.__init__ import *
-from src.utils.dados_teste import create_mock_data_and_sell_all_stock
+# ✅ Import da nova estrutura
+from qodo.conf.database import init_database, close_database
+from qodo.logs.infos import LOGGER
+from qodo.routes import setup_routes, get_api_metadata
+from qodo.utils.dados_teste import create_mock_data_and_sell_all_stock
 
 
 @asynccontextmanager
@@ -21,79 +18,161 @@ async def lifespan(app: FastAPI):
     """Gerencia o ciclo de vida da aplicação."""
     load_dotenv()
 
-    # Inicializa banco de dados
-    await Tortoise.init(config=TORTOISE_ORM)
-    await Tortoise.generate_schemas()
-    LOGGER.info('✅ Banco de dados iniciado e tabelas criadas!')
-    # await create_mock_data_and_sell_all_stock()
-
-    # await print_database_info()
+    # ✅ Inicializa banco usando a nova configuração
+    if await init_database():
+        LOGGER.info('✅ Banco de dados iniciado e tabelas criadas!')
+        # await create_mock_data_and_sell_all_stock()  # Descomente se necessário
+    else:
+        LOGGER.error('❌ Falha ao inicializar banco de dados')
+        raise RuntimeError('Não foi possível inicializar o banco de dados')
 
     yield
 
-    await Tortoise.close_connections()
+    await close_database()
     LOGGER.info('🧱 Banco de dados encerrado com sucesso.')
 
 
 class Server:
     def __init__(self):
-        self.api = FastAPI(
-            title='PDV API', version='1.0.0', debug=True, lifespan=lifespan
-        )
+        # ✅ Usa os metadados configurados profissionalmente
+        self.api = FastAPI(**get_api_metadata(), debug=True, lifespan=lifespan)
 
         self.setup_middlewares()
-        self.start_routes()
+        self.setup_routes()
 
     def setup_middlewares(self):
-        """Configura CORS."""
+        """Configura middlewares da aplicação."""
         origins = [
-            'http://localhost:3000',
             'http://127.0.0.1:3000',
-            'http://localhost:5173',
-            'http://127.0.0.1:5173',
+            'http://localhost:3000',
+            'http://127.0.0.1:8000',
             'http://localhost:8000',
             'http://127.0.0.1:5000',
-            'https://front-end-pdv.onrender.com',
-            'https://api-pdv-online.onrender.com',
-            'https://nahtec.com.br',
-            'https://nahtec.com.br/pdv',
+            'http://localhost:5000',
+            'http://127.0.0.1:8080',
+            'http://localhost:8080',
+            'http://localhost:5173',  # Vite/React
+            'http://127.0.0.1:5173',
         ]
 
         self.api.add_middleware(
             CORSMiddleware,
             allow_origins=origins,
-            allow_credentials=True,  # 🔥 IMPORTANTE: Permitir cookies
-            allow_methods=['*'],
+            allow_credentials=True,
+            allow_methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
             allow_headers=['*'],
         )
 
-    def start_routes(self):
-        """Registra as rotas principais da aplicação."""
-        self.api.include_router(auth)
-        self.api.include_router(Funcionários)
-        self.api.include_router(clientes)
-        self.api.include_router(produtos)
-        self.api.include_router(carrinho)
-        self.api.include_router(fornecedor)
-        self.api.include_router(tickets)
-        self.api.include_router(dashboard)
-        self.api.include_router(paymente)
-        self.api.include_router(delivery)
-        self.api.include_router(marketplace)
-        self.api.include_router(my_inventario)
+        # ✅ Adicione outros middlewares se necessário
+        # from fastapi.middleware.trustedhost import TrustedHostMiddleware
+        # self.api.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
-        from src.routes.caixa.start_router import checkout
+        # from fastapi.middleware.gzip import GZipMiddleware
+        # self.api.add_middleware(GZipMiddleware, minimum_size=1000)
+
+    def setup_routes(self):
+        """Configura todas as rotas de forma profissional."""
+        # ✅ Método 1: Usando o setup_routes (RECOMENDADO)
+        setup_routes(self.api)
+
+        # ✅ Método 2: Ou manualmente para controle granular
+        # from qodo.routes.router_manager import router_manager
+        # for router in router_manager.get_all_routers():
+        #     self.api.include_router(router)
+
+        # ✅ Rotas adicionais específicas (se necessário)
+        from qodo.routes.caixa.start_router import checkout
 
         self.api.include_router(checkout)
 
+        # ✅ Health Check e informações do sistema
+        self.setup_system_routes()
+
+    def setup_system_routes(self):
+        """Configura rotas do sistema e health checks."""
+
+        @self.api.get('/', tags=['🏠 Sistema'])
+        async def root():
+            """Endpoint raiz com informações do sistema."""
+            return {
+                'message': '🚀 Qodo PDV API está rodando!',
+                'version': '1.0.0',
+                'status': 'online',
+                'docs': '/docs',
+                'redoc': '/redoc',
+            }
+
+        @self.api.get('/health', tags=['🏠 Sistema'])
+        async def health_check():
+            """Health check da aplicação."""
+            return {
+                'status': 'healthy',
+                'timestamp': '2024-01-01T00:00:00Z',  # Usar datetime.utcnow() em produção
+                'service': 'qodo-pdv-api',
+                'version': '1.0.0',
+            }
+
+        @self.api.get('/api/v1/info', tags=['🏠 Sistema'])
+        async def system_info():
+            """Informações detalhadas do sistema."""
+            return {
+                'name': 'Qodo PDV',
+                'version': '1.0.0',
+                'description': 'Sistema completo de Ponto de Venda',
+                'developer': 'Qodo Tech',
+                'contact': 'dacruzgg01@gmail.com',
+                'repository': 'https://github.com/Gilderlan0101/qodo-pdv',
+                'endpoints': {
+                    'auth': '/api/v1/auth',
+                    'products': '/api/v1/produtos',
+                    'sales': '/api/v1/carrinho',
+                    'dashboard': '/api/v1/dashboard',
+                    'payments': '/api/v1/pagamentos',
+                },
+            }
+
     def run(self, host: str = '0.0.0.0', port: int = 8000):
         """Inicia o servidor Uvicorn."""
+        LOGGER.info(f'🚀 Iniciando servidor Qodo PDV em {host}:{port}')
+
         uvicorn.run(
-            'Main:app', host=host, port=port, reload=True, log_level='info'
+            'Main:app',
+            host=host,
+            port=port,
+            reload=True,
+            log_level='info',
+            access_log=True,
+            use_colors=True,
         )
 
 
+# Instância global do app para FastAPI
 app = Server().api
 
+
+def main():
+    """
+    Função principal para executar o servidor Qodo PDV.
+    Esta função é usada pelo entry point do setup.py
+    """
+    print('🚀 Iniciando Qodo PDV Server...')
+    print('📊 Sistema de Ponto de Venda - Qodo Tech')
+    print('🔗 API disponível em: http://0.0.0.0:8000')
+    print('📚 Documentação: http://0.0.0.0:8000/docs')
+    print('🔍 Redoc: http://0.0.0.0:8000/redoc')
+    print('❤️  Health Check: http://0.0.0.0:8000/health')
+    print('⏹️  Para parar o servidor, pressione Ctrl+C')
+    print('-' * 60)
+
+    try:
+        server = Server()
+        server.run()
+    except KeyboardInterrupt:
+        print('\n🛑 Servidor interrompido pelo usuário')
+    except Exception as e:
+        print(f'❌ Erro ao iniciar servidor: {e}')
+        LOGGER.error(f'Erro ao iniciar servidor: {e}')
+
+
 if __name__ == '__main__':
-    Server().run()
+    main()

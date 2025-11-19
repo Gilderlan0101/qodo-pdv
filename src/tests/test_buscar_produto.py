@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import AsyncMock, patch
 
-from src.model.product import Produto
-from src.utils.get_produtos_user import get_product_by_user
+from qodo.model.product import Produto
+from qodo.utils.get_produtos_user import get_product_by_user
 
 
 class TestBuscarProduto(unittest.IsolatedAsyncioTestCase):
