@@ -50,6 +50,13 @@ setup(
         'aiomysql',
         'bcrypt==4.3.0',
         'tortoise-orm',
+        'redis',
+        'requests',
+        'fpdf',
+        'jose',
+        'python-multipart',
+        'validate_docbr',
+        'pydantic_br'
     ],
     extras_require={
         'dev': [
@@ -68,8 +75,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'qodo-pdv=Main:main',
-            'qodo-server=Main:main',
+            'qodo-pdv=qodo.main:main',
+            'qodo-server=qodo.main:main',
         ],
     },
     classifiers=[

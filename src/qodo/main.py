@@ -1,4 +1,3 @@
-# Main.py
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -63,22 +62,10 @@ class Server:
             allow_headers=['*'],
         )
 
-        # ✅ Adicione outros middlewares se necessário
-        # from fastapi.middleware.trustedhost import TrustedHostMiddleware
-        # self.api.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
-
-        # from fastapi.middleware.gzip import GZipMiddleware
-        # self.api.add_middleware(GZipMiddleware, minimum_size=1000)
-
     def setup_routes(self):
         """Configura todas as rotas de forma profissional."""
         # ✅ Método 1: Usando o setup_routes (RECOMENDADO)
         setup_routes(self.api)
-
-        # ✅ Método 2: Ou manualmente para controle granular
-        # from qodo.routes.router_manager import router_manager
-        # for router in router_manager.get_all_routers():
-        #     self.api.include_router(router)
 
         # ✅ Rotas adicionais específicas (se necessário)
         from qodo.routes.caixa.start_router import checkout
@@ -136,7 +123,7 @@ class Server:
         LOGGER.info(f'🚀 Iniciando servidor Qodo PDV em {host}:{port}')
 
         uvicorn.run(
-            'Main:app',
+            'qodo.main:app', 
             host=host,
             port=port,
             reload=True,
