@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/qodo # Substitua 'qodo' pelo nome correto se for diferente
+      url: https://pypi.org/p/qodo 
 
     steps:
     - name: ⬇️ Checkout do código
@@ -38,21 +38,13 @@ jobs:
         pip install build setuptools wheel
 
     - name: 🏗️ Construir o pacote (sdist e wheel)
+      # Isso gera os arquivos .tar.gz e .whl na pasta 'dist/'
       run: python -m build
 
-    - name: 🔑 Configurar Autenticação PyPI (OIDC)
-      # Usa a Action oficial para configurar o ambiente para autenticação de token
-      uses: pypi-actions/configure-poetry@v1
-      with:
-        # Usa o nome do ambiente que definimos acima, que deve ter o token PyPI
-        pypi_token: ${{ secrets.PYPI_API_TOKEN }} 
-        
-    - name: 🚀 Publicar no PyPI
-      uses: pypi-actions/upload-and-release@v2
-      with:
-        # Padrão para arquivos de distribuição construídos
-        # Certifique-se de que os nomes de arquivo correspondam ao que `python -m build` gera
-        # Geralmente fica em 'dist/'
-        
-        # Este é o segredo que você deve configurar no GitHub (veja o passo 2)
-        pypi_token: ${{ secrets.PYPI_API_TOKEN }}
+    # O bloco de steps que usava 'pypi-actions/configure-poetry' e 'pypi-actions/upload-and-release'
+    # foi removido e substituído por uma única ação oficial.
+    
+    - name: 🚀 Publicar no PyPI (via OIDC)
+      # Ação oficial e recomendada. Ela detecta automaticamente os arquivos em 'dist/'
+      # e usa o 'id-token' configurado nas permissões para autenticação OIDC.
+      uses: pypi/gh-action-pypi-publish@release/v1
