@@ -1,0 +1,58 @@
+# Nome do fluxo de trabalho (aparece na aba 'Actions' do GitHub)
+name: Publicar no PyPI
+
+# Define quando este fluxo de trabalho será executado
+on:
+  # Executa sempre que um novo 'release' for criado
+  release:
+    types: [published]
+  # Permite executar manualmente
+  workflow_dispatch:
+
+# Permissões necessárias para o trabalho de deploy
+permissions:
+  contents: write # Necessário para fazer checkout do código
+  id-token: write # Necessário para autenticação no PyPI (OIDC) - Método moderno e seguro
+
+jobs:
+  # O trabalho principal para construir e fazer o deploy
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/qodo # Substitua 'qodo' pelo nome correto se for diferente
+
+    steps:
+    - name: ⬇️ Checkout do código
+      uses: actions/checkout@v4
+
+    - name: ⚙️ Configurar Python (3.x)
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: 🛠️ Instalar dependências de build
+      run: |
+        # Instala build, setuptools e wheel para criar os pacotes
+        python -m pip install --upgrade pip
+        pip install build setuptools wheel
+
+    - name: 🏗️ Construir o pacote (sdist e wheel)
+      run: python -m build
+
+    - name: 🔑 Configurar Autenticação PyPI (OIDC)
+      # Usa a Action oficial para configurar o ambiente para autenticação de token
+      uses: pypi-actions/configure-poetry@v1
+      with:
+        # Usa o nome do ambiente que definimos acima, que deve ter o token PyPI
+        pypi_token: ${{ secrets.PYPI_API_TOKEN }} 
+        
+    - name: 🚀 Publicar no PyPI
+      uses: pypi-actions/upload-and-release@v2
+      with:
+        # Padrão para arquivos de distribuição construídos
+        # Certifique-se de que os nomes de arquivo correspondam ao que `python -m build` gera
+        # Geralmente fica em 'dist/'
+        
+        # Este é o segredo que você deve configurar no GitHub (veja o passo 2)
+        pypi_token: ${{ secrets.PYPI_API_TOKEN }}
