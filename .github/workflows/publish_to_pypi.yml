@@ -11,8 +11,8 @@ on:
 
 # Permissões necessárias para o trabalho de deploy
 permissions:
-  contents: write # Necessário para fazer checkout do código
-  id-token: write # Necessário para autenticação no PyPI (OIDC) - Método moderno e seguro
+  contents: read
+  id-token: write
 
 jobs:
   # O trabalho principal para construir e fazer o deploy
@@ -20,30 +20,27 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/qodo 
+      url: https://pypi.org/p/qodo
 
     steps:
     - name: ⬇️ Checkout do código
       uses: actions/checkout@v4
 
-    - name: ⚙️ Configurar Python (3.x)
-      uses: actions/setup-python@v5
+    - name: ⚙️ Configurar Python
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
     - name: 🛠️ Instalar dependências de build
       run: |
-        # Instala build, setuptools e wheel para criar os pacotes
         python -m pip install --upgrade pip
-        pip install build setuptools wheel
+        pip install build setuptools wheel twine
 
-    - name: 🏗️ Construir o pacote (sdist e wheel)
-      # Isso gera os arquivos .tar.gz e .whl na pasta 'dist/'
+    - name: 🏗️ Construir o pacote
       run: python -m build
 
-    # O bloco de steps que usava 'pypi-actions/configure-poetry' e 'pypi-actions/upload-and-release'
-    # foi removido e substituído por uma única ação oficial.
-    
-    - name: 🚀 Publicar no PyPI (via OIDC)
-      # Ação oficial e recomendada. Ela detecta automaticamente os arquivos em 'dist/'
-      uses: pypi/gh-action-pypi-publish@main
+    - name: 📦 Publicar no PyPI
+      uses: pypa/gh-action-pypi-publish@release
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
