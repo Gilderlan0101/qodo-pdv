@@ -18,34 +18,33 @@
 
 ## 📋 Índice
 
-- [🎯 O Porquê Desta Biblioteca](#-o-porquê-desta-biblioteca)
-- [✨ Funcionalidades Principais](#-funcionalidades-principais)
-- [🛠️ Tecnologias](#️-tecnologias)
-- [⚡ Instalação Rápida](#-instalação-rápida)
-- [🚀 Começando em 2 Minutos](#-começando-em-2-minutos)
-- [📖 Documentação da API](#-documentação-da-api)
-- [⚙️ Configuração](#️-configuração)
-- [🎯 Exemplos Práticos](#-exemplos-práticos)
-- [🏗️ Estrutura do Projeto](#️-estrutura-do-projeto)
+- [1) O Porquê Desta Biblioteca](#-o-porquê-desta-biblioteca)
+- [2) Funcionalidades Principais](#-funcionalidades-principais)
+- [3) Tecnologias](#️-tecnologias)
+- [4) Instalação Rápida](#-instalação-rápida)
+- [5) Começando em 2 Minutos](#-começando-em-2-minutos)
+- [6) Documentação da API](#-documentação-da-api)
+- [7) Configuração](#️-configuração)
+- [8) Exemplos Práticos](#-exemplos-práticos)
+- [9 Estrutura do Projeto](#️-estrutura-do-projeto)
 - [🤝 Contribuindo](#-contribuindo)
 - [📄 Licença](#-licença)
-- [📞 Contato](#-contato)
 
 ---
 
-## 🎯 O Porquê Desta Biblioteca
+##  O Porquê Desta Biblioteca
 
 Desenvolver um sistema de PDV do zero costuma ser trabalhoso: copiar e replicar código, corrigir bugs e lidar com tarefas repetitivas consomem tempo e diminuem a produtividade. Pensando nisso, a **Qodo** criou uma biblioteca para **acelerar o desenvolvimento** e **reduzir a complexidade** dessas etapas.
 
 **Assim nasceu o Qodo PDV**, uma biblioteca Python com endpoints prontos, construída em **FastAPI** e **MySQL**, projetada para tornar o desenvolvimento de sistemas de PDV mais simples, rápido e eficiente.
 
-### 💡 Problemas que Resolvemos
+###  Problemas que Resolvemos
 
-- ✅ **Evita retrabalho** - Endpoints prontos para funcionalidades comuns
-- ✅ **Padronização** - Estrutura consistente para todos os projetos
-- ✅ **Manutenção simplificada** - Atualizações centralizadas
-- ✅ **Documentação completa** - APIs bem documentadas e exemplos práticos
-- ✅ **Comunidade** - Soluções testadas e validadas pela comunidade
+-  **Evita retrabalho** - Endpoints prontos para funcionalidades comuns
+-  **Padronização** - Estrutura consistente para todos os projetos
+-  **Manutenção simplificada** - Atualizações centralizadas
+-  **Documentação completa** - APIs bem documentadas e exemplos práticos
+-  **Comunidade** - Soluções testadas e validadas pela comunidade
 
 ---
 
@@ -97,7 +96,7 @@ Desenvolver um sistema de PDV do zero costuma ser trabalhoso: copiar e replicar 
 
 ---
 
-## 🛠️ Tecnologias
+##  Tecnologias
 
 **Backend:**
 - ![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0+-green) - Framework web moderno e rápido
@@ -119,13 +118,16 @@ Desenvolver um sistema de PDV do zero costuma ser trabalhoso: copiar e replicar 
 
 ## ⚡ Instalação Rápida
 
-### Método 1: Instalação via Pip
-```bash
-pip install qodo-pdv
+git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
 
 Método 2: Instalação em Desenvolvimento
+cd qodo-pdv
+pip install -e .
 
-Bash
+### Método 2: Instalação via Pip
+
+pip install qodo-pdv
+```[python]
 
 git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
 cd qodo-pdv
@@ -137,40 +139,46 @@ Exemplo 1: Uso como Biblioteca
 
 Python
 
-from qodo.controllers.user.create_account import CreateCompany
+from qodo.controllers.user.create_account import *
 from qodo.conf.database import init_database, close_database
 import asyncio
 
+
 async def criar_minha_empresa():
     await init_database()
-    
-    empresa = CreateCompany(
-        full_name="Seu Nome",
-        email="seu@email.com",
-        password="senha123",
-        company_name="Sua Empresa LTDA"
+
+    create_company = CreateCompany(
+        username=user.full_name,
+        email=user.email,
+        password=hashed_password,
+        company_name=user.company_name,
+        trade_name=getattr(user, 'trade_name', None),
+        membros=getattr(user, 'membros', 0),
+        cpf=user.cpf,
+        cnpj=user.cnpj,
+        state_registration=getattr(user, 'state_registration', None),
+        municipal_registration=getattr(user, 'municipal_registration', None),
+        cnae_principal=getattr(user, 'cnae_principal', None),
+        crt=getattr(user, 'crt', None),
+        cep=getattr(user, 'cep', None),
+        street=getattr(user, 'street', None),
+        number=getattr(user, 'number', None),
+        complement=getattr(user, 'complement', None),
+        district=getattr(user, 'district', None),
+        city=getattr(user, 'city', None),
+        state=getattr(user, 'state', None),
     )
-    
-    resultado = await empresa.new_company()
-    print(f"✅ Empresa criada: {resultado['empresa']}")
-    
+
+    result = await create_company.new_company()
+    print(f" Company successfully created {resultado['create_company']}")
+
     await close_database()
 
-# Execute
-asyncio.run(criar_minha_empresa())
-
-Exemplo 2: Servidor Completo
-
-Python
-
-# server.py
-from qodo import main
-
 if __name__ == "__main__":
-    main()
+    asyncio.run(criar_minha_empresa())
+```
 
-Execute:
-Bash
+
 
 python server.py
 # Ou use o comando instalado
