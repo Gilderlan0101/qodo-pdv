@@ -142,38 +142,38 @@ from qodo.conf.database import init_database, close_database
 import asyncio
 
 
-async def criar_minha_empresa():
+async def create_my_company():
     await init_database()
 
     create_company = CreateCompany(
-        username=user.full_name,
-        email=user.email,
-        password=hashed_password,
-        company_name=user.company_name,
-        trade_name=getattr(user, 'trade_name', None),
-        membros=getattr(user, 'membros', 0),
-        cpf=user.cpf,
-        cnpj=user.cnpj,
-        state_registration=getattr(user, 'state_registration', None),
-        municipal_registration=getattr(user, 'municipal_registration', None),
-        cnae_principal=getattr(user, 'cnae_principal', None),
-        crt=getattr(user, 'crt', None),
-        cep=getattr(user, 'cep', None),
-        street=getattr(user, 'street', None),
-        number=getattr(user, 'number', None),
-        complement=getattr(user, 'complement', None),
-        district=getattr(user, 'district', None),
-        city=getattr(user, 'city', None),
-        state=getattr(user, 'state', None),
+        full_name="Nome da Empresa",
+        email="email@example.com",
+        password="senha_hash",
+        company_name="Empresa X",
+        trade_name="Nome Fantasia",
+        cpf="00000000000",
+        cnpj="00000000000000",
+        state_registration="123456789",
+        municipal_registration="987654321",
+        crt="3",
+        cep="00000000",
+        street="Rua Exemplo",
+        number="123",
+        complement="Sala 5",
+        district="Centro",
+        city="Cidade Exemplo",
+        state="EX",
     )
 
     result = await create_company.new_company()
-    print(f" Company successfully created {resultado['create_company']}")
+    print(f" Company successfully created : {result}")
 
     await close_database()
 
+
 if __name__ == "__main__":
-    asyncio.run(criar_minha_empresa())
+    asyncio.run(create_my_company())
+
 ```
 
 
