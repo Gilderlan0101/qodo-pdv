@@ -116,26 +116,24 @@ Desenvolver um sistema de PDV do zero costuma ser trabalhoso: copiar e replicar 
 
 ---
 
+
+
 ## ⚡ Instalação Rápida
 
-git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
-
 Método 2: Instalação em Desenvolvimento
+git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
 cd qodo-pdv
 pip install -e .
 
 ### Método 2: Instalação via Pip
 
 pip install qodo-pdv
-```[python]
 
-git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
-cd qodo-pdv
-pip install -e .
 
-🚀 Começando em 2 Minutos
+```
 
-Exemplo 1: Uso como Biblioteca
+
+
 
 Python
 
@@ -180,7 +178,20 @@ if __name__ == "__main__":
 
 
 
-python server.py
+python main.py
+
+```
+python
+
+from qodo import main
+
+if __name__ == "__main__":
+    main()
+
+
+```
+
+
 # Ou use o comando instalado
 qodo-pdv
 
