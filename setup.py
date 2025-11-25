@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 import os
 
 # Ler dependências do requirements.txt
@@ -10,14 +10,12 @@ def read_requirements():
             if line.strip() and not line.startswith('#')
         ]
 
-
 # Ler README
 def read_readme():
     if os.path.exists('README.md'):
         with open('README.md', 'r', encoding='utf-8') as f:
             return f.read()
     return 'Qodo PDV - Sistema completo de Ponto de Venda'
-
 
 setup(
     name='qodo',
@@ -28,73 +26,52 @@ setup(
     author='Qodo Tech',
     author_email='dacruzgg01@gmail.com',
     url='https://github.com/Gilderlan0101/qodo-pdv',
-    # ✅ CORREÇÃO: Encontra pacotes dentro de src/
-    packages=find_packages(where='src'),
-    package_dir={'': 'src'},
-    package_data={
-        'qodo': ['*.md', '*.txt', 'static/logo/*.png'],
-    },
-    include_package_data=True,
-    install_requires=[
-        'fastapi',
-        'uvicorn',
-        'sqlmodel',
-        'pydantic',
-        'pydantic-settings',
-        'python-dotenv',
-        'python-jose',
-        'passlib',
-        'httpx',
-        'email-validator',
-        'faker',
-        'aiomysql',
-        'bcrypt==4.3.0',
-        'tortoise-orm',
-        'redis',
-        'requests',
-        'fpdf',
-        'jose',
-        'python-multipart',
-        'validate_docbr',
-        'pydantic_br'
+    
+    # ✅ Use find_packages para automatizar
+    packages=['qodo'] + [
+        f'qodo.{subpkg}' for subpkg in [
+            'auth', 'conf', 'core', 'logs', 'model', 'routes', 
+            'schemas', 'services', 'utils', 'controllers'
+        ]
     ],
-    extras_require={
-        'dev': [
-            'pytest>=7.0.0',
-            'black>=22.0.0',
-            'flake8>=4.0.0',
-            'mypy>=1.0.0',
-        ],
-        'mysql': [
-            'aiomysql>=0.2.0',
-            'pymysql>=1.0.0',
-        ],
-        'sqlite': [
-            'aiosqlite>=0.18.0',
-        ],
+    package_dir={'': 'src'},
+    
+    # ✅ Incluir dados do pacote
+    include_package_data=True,
+    package_data={
+        'qodo': ['*.md', 'static/logo/*.png'],
     },
-    entry_points={
-        'console_scripts': [
-            'qodo-pdv=qodo.main:main',
-            'qodo-server=qodo.main:main',
-        ],
-    },
+    
+    # ✅ Dependências otimizadas
+    install_requires=read_requirements(),
+    
+    # ✅ Classifiers atualizados (sem warnings)
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Intended Audience :: Financial and Insurance Industry',
         'Intended Audience :: End Users/Desktop',
         'Topic :: Office/Business :: Financial :: Point-Of-Sale',
-        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
     ],
+    
     keywords='pdv ponto-de-venda venda checkout fastapi sqlite mysql',
     python_requires='>=3.8',
+    
+    entry_points={
+        'console_scripts': [
+            'qodo-pdv=qodo.main:main',
+            'qodo-server=qodo.main:main',
+        ],
+    },
+    
     project_urls={
         'Documentation': 'https://github.com/Gilderlan0101/qodo-pdv',
         'Source': 'https://github.com/Gilderlan0101/qodo-pdv',

@@ -17,7 +17,7 @@ async def get_cash_report_route(
     current_user: SystemUser = Depends(get_current_user),
     filter_data: Optional[date] = Query(
         None, description='Data para filtrar (formato: YYYY-MM-DD)'
-    ),  # 🎯 Mude para date
+    ),
     employee_name: Optional[str] = Query(None),
 ):
     """Gera relatório de caixa"""

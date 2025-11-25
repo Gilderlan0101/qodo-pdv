@@ -19,16 +19,16 @@ async def lifespan(app: FastAPI):
 
     # ✅ Inicializa banco usando a nova configuração
     if await init_database():
-        LOGGER.info('✅ Banco de dados iniciado e tabelas criadas!')
+        LOGGER.info('Banco de dados iniciado e tabelas criadas!')
         # await create_mock_data_and_sell_all_stock()  # Descomente se necessário
     else:
-        LOGGER.error('❌ Falha ao inicializar banco de dados')
+        LOGGER.error('Falha ao inicializar banco de dados')
         raise RuntimeError('Não foi possível inicializar o banco de dados')
 
     yield
 
     await close_database()
-    LOGGER.info('🧱 Banco de dados encerrado com sucesso.')
+    LOGGER.info('Banco de dados encerrado com sucesso.')
 
 
 class Server:
@@ -64,7 +64,6 @@ class Server:
 
     def setup_routes(self):
         """Configura todas as rotas de forma profissional."""
-        # ✅ Método 1: Usando o setup_routes (RECOMENDADO)
         setup_routes(self.api)
 
         # ✅ Rotas adicionais específicas (se necessário)
@@ -104,10 +103,10 @@ class Server:
             """Informações detalhadas do sistema."""
             return {
                 'name': 'Qodo PDV',
-                'version': '1.0.0',
+                'version': '0.1.0',
                 'description': 'Sistema completo de Ponto de Venda',
-                'developer': 'Qodo Tech',
-                'contact': 'dacruzgg01@gmail.com',
+                'developer': 'nathec Tech',
+                'contact': 'contatodevorbit@gmail.com',
                 'repository': 'https://github.com/Gilderlan0101/qodo-pdv',
                 'endpoints': {
                     'auth': '/api/v1/auth',

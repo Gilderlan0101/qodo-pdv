@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, Depends, HTTPException, status
 
 from qodo.auth.deps import get_current_user
-from qodo.model.caixa import Caixa  # ← IMPORTE O MODELO DO CAIXA
+from qodo.model.caixa import Caixa
 from qodo.model.employee import Employees
 from qodo.model.user import Usuario
 from qodo.routes.registre import get_hashed_password

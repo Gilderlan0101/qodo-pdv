@@ -153,3 +153,6 @@ async def close_database():
 async def get_database_connection():
     """Retorna a conexão com o banco"""
     return Tortoise.get_connection('default')
+
+
+    __all__ = ['init_database', 'close_database']
