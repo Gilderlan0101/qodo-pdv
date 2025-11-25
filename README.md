@@ -1,355 +1,283 @@
-# 🚀 Qodo PDV - Sistema Completo de Ponto de Venda
+
+---
+
+# 🚀 Qodo PDV – Sistema Completo de Ponto de Venda
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
+![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-green.svg)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)
 
-**A biblioteca Python que acelera o desenvolvimento de sistemas PDV**
+**Framework Python para acelerar a criação de sistemas de PDV com FastAPI**
 
-[Documentação da API](#-acesse-a-documentação-interativa) • [Quick Start](#-começando-em-2-minutos) • [Reportar Bug](https://github.com/Gilderlan0101/qodo-pdv/issues)
+[Documentação da API](#-documentação-da-api) • [Instalação](#-instalação-rápida) • [Exemplos](#-exemplos-práticos)
 
 </div>
 
 ---
 
-## 📋 Índice
+## 📸 Screenshots da API
 
-- [1) O Porquê Desta Biblioteca](#-o-porquê-desta-biblioteca)
-- [2) Funcionalidades Principais](#-funcionalidades-principais)
-- [3) Tecnologias](#️-tecnologias)
-- [4) Instalação Rápida](#-instalação-rápida)
-- [5) Começando em 2 Minutos](#-começando-em-2-minutos)
-- [6) Documentação da API](#-documentação-da-api)
-- [7) Configuração](#️-configuração)
-- [8) Exemplos Práticos](#-exemplos-práticos)
-- [9 Estrutura do Projeto](#️-estrutura-do-projeto)
-- [🤝 Contribuindo](#-contribuindo)
-- [📄 Licença](#-licença)
+### Login
+
+<img src="src/assets/login_api.png" width="450">
+
+### Cadastro de Produto
+
+<img src="src/assets/cadastro_produto_api.png" width="450">
+
+### Abertura de Caixa
+
+<img src="src/assets/open_caixa.png" width="450">
 
 ---
 
-##  O Porquê Desta Biblioteca
+## 📋 Índice
 
-Desenvolver um sistema de PDV do zero costuma ser trabalhoso: copiar e replicar código, corrigir bugs e lidar com tarefas repetitivas consomem tempo e diminuem a produtividade. Pensando nisso, a **Qodo** criou uma biblioteca para **acelerar o desenvolvimento** e **reduzir a complexidade** dessas etapas.
+* [Por que este projeto existe](#-o-porquê-desta-biblioteca)
+* [Funcionalidades](#-funcionalidades-principais)
+* [Tecnologias](#️-tecnologias)
+* [Instalação rápida](#-instalação-rápida)
+* [Como rodar o servidor](#-como-rodar-o-servidor)
+* [Documentação da API](#-documentação-da-api)
+* [Configuração](#️-configuração)
+* [Exemplos práticos](#-exemplos-práticos)
+* [Estrutura do projeto](#️-estrutura-do-projeto)
+* [Contribuindo](#-contribuindo)
+* [Licença](#-licença)
 
-**Assim nasceu o Qodo PDV**, uma biblioteca Python com endpoints prontos, construída em **FastAPI** e **MySQL**, projetada para tornar o desenvolvimento de sistemas de PDV mais simples, rápido e eficiente.
+---
 
-###  Problemas que Resolvemos
+## 📘 O Porquê Desta Biblioteca
 
--  **Evita retrabalho** - Endpoints prontos para funcionalidades comuns
--  **Padronização** - Estrutura consistente para todos os projetos
--  **Manutenção simplificada** - Atualizações centralizadas
--  **Documentação completa** - APIs bem documentadas e exemplos práticos
--  **Comunidade** - Soluções testadas e validadas pela comunidade
+Criar um PDV completo do zero é demorado e cheio de detalhes repetitivos: produtos, vendas, caixa, clientes, autenticação, permissões, métricas… tudo isso toma tempo.
+
+O **Qodo PDV** foi criado para:
+
+* acelerar o desenvolvimento de sistemas comerciais
+* padronizar a estrutura
+* reduzir bugs
+* fornecer endpoints prontos
+* facilitar a vida de quem vai integrar front-ends e apps móveis
+
+A proposta é simples:
+**Você foca em construir o seu sistema. A Qodo entrega a base pronta.**
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-### 🛒 **Vendas & Carrinho**
-- Gestão completa de vendas
-- Carrinho dinâmico em tempo real
-- Cancelamento de vendas
-- Múltiplos métodos de pagamento
-- Vendas parceladas
-- Controle de troco
+### 🛒 Vendas e Caixa
 
-### 📦 **Produtos & Estoque**
-- Cadastro e gestão de produtos
-- Controle de inventário inteligente
-- Upload de imagens
-- Categorização e tickets
-- Alertas de estoque baixo
-- Validação de data de validade
+* Gerenciamento completo de vendas
+* Abertura e fechamento de caixa
+* Cancelamentos
+* Pagamentos via PIX e múltiplos métodos
+* Cálculo automático de troco
 
-### 👥 **Clientes & Funcionários**
-- CRM integrado
-- Gestão de equipe
-- Controle de acesso multi-nível
-- Sistema de crédito para clientes
-- Histórico de compras
+### 📦 Produtos e Estoque
 
-### 💳 **Pagamentos**
-- Múltiplos métodos de pagamento
-- PIX integrado com QR Code
-- Pagamentos parcelados
-- Controle de contas bancárias
-- Reconciliação financeira
+* CRUD completo
+* Controle de inventário
+* Categoria, código e imagem
+* Alerts de estoque baixo
 
-### 🚚 **Delivery**
-- Gestão completa de entregas
-- Rastreamento em tempo real
-- Atribuição automática de entregadores
-- Controle de status
-- Relatórios de performance
+### 👥 Clientes e Funcionários
 
-### 📊 **Dashboard & Analytics**
-- Relatórios em tempo real
-- Métricas de performance
-- Analytics de vendas
-- Indicadores financeiros
-- Gráficos e visualizações
+* Níveis de acesso
+* Histórico de compras
+* Sistema de crédito
+
+### 📊 Relatórios e Dashboard
+
+* Métricas em tempo real
+* Indicadores financeiros
+* API pronta para BI
 
 ---
 
-##  Tecnologias
+## 🛠️ Tecnologias
 
-**Backend:**
-- ![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0+-green) - Framework web moderno e rápido
-- ![Python](https://img.shields.io/badge/Python-3.8+-blue) - Linguagem principal
-- ![SQLModel](https://img.shields.io/badge/SQLModel-0.0.27+-orange) - ORM moderno
-- ![TortoiseORM](https://img.shields.io/badge/Tortoise_ORM-0.25.1+-yellow) - ORM assíncrono
-- ![Pydantic](https://img.shields.io/badge/Pydantic-2.0+-blue) - Validação de dados
-
-**Banco de Dados:**
-- ![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange) - Banco relacional principal
-- ![SQLite](https://img.shields.io/badge/SQLite-3.0+-lightgrey) - Alternativa para desenvolvimento
-
-**Autenticação & Segurança:**
-- ![JWT](https://img.shields.io/badge/JWT-Bearer_Tokens-red) - Autenticação stateless
-- ![bcrypt](https://img.shields.io/badge/bcrypt-4.3.0+-green) - Hash de senhas
-- ![CORS](https://img.shields.io/badge/CORS-Enabled-blue) - Cross-Origin Resource Sharing
+* **FastAPI** – Framework rápido e moderno
+* **Python 3.12+**
+* **Tortoise ORM** – ORM assíncrono
+* **SQLModel**
+* **Pydantic v2**
+* **MySQL / SQLite**
+* **JWT + bcrypt** para autenticação
 
 ---
-
-
 
 ## ⚡ Instalação Rápida
 
-Método 2: Instalação em Desenvolvimento
-git clone [https://github.com/Gilderlan0101/qodo-pdv.git](https://github.com/Gilderlan0101/qodo-pdv.git)
+### Clonando o projeto
+
+```bash
+git clone https://github.com/Gilderlan0101/qodo-pdv.git
 cd qodo-pdv
 pip install -e .
-
-### Método 2: Instalação via Pip
-
-pip install qodo-pdv
-
-
 ```
 
+### Ou instalação via PyPI (quando publicado)
 
+```bash
+pip install qodo-pdv
+```
 
+---
 
-Python
+## ▶️ Como rodar o servidor
 
+### 1. Crie o arquivo `.env`:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=qodo_pdv
+DB_USER=root
+DB_PASS=senha
+JWT_SECRET_KEY=sua_chave_secreta
+ALGORITHM=HS256
+DEBUG=True
+```
+
+### 2. Execute o servidor
+
+```bash
+python main.py
+```
+
+Ou, se instalado como pacote:
+
+```bash
+qodo-pdv
+```
+
+---
+
+## 🌐 Documentação da API
+
+Com o servidor rodando:
+
+* **Swagger UI:**
+  [http://localhost:8000/docs](http://localhost:8000/docs)
+
+* **ReDoc:**
+  [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+* **Health Check:**
+  [http://localhost:8000/health](http://localhost:8000/health)
+
+---
+
+## ⚙️ Configuração
+
+### Usando SQLite (desenvolvimento)
+
+```python
+from qodo.conf.database import init_database
+
+await init_database()
+```
+
+### Usando MySQL (produção)
+
+```python
+from qodo.conf.database import init_database, DatabaseConfig
+
+config = DatabaseConfig.get_mysql_config()
+await init_database(config)
+```
+
+---
+
+## 🎯 Exemplos Práticos
+
+### Criar uma empresa
+
+```python
 from qodo.controllers.user.create_account import *
 from qodo.conf.database import init_database, close_database
 import asyncio
 
-
 async def create_my_company():
     await init_database()
 
-    create_company = CreateCompany(
-        full_name="Nome da Empresa",
+    company = CreateCompany(
+        full_name="Empresa X",
         email="email@example.com",
         password="senha_hash",
         company_name="Empresa X",
         trade_name="Nome Fantasia",
         cpf="00000000000",
         cnpj="00000000000000",
-        state_registration="123456789",
-        municipal_registration="987654321",
+        state_registration="123456",
+        municipal_registration="987654",
         crt="3",
         cep="00000000",
         street="Rua Exemplo",
         number="123",
-        complement="Sala 5",
         district="Centro",
-        city="Cidade Exemplo",
-        state="EX",
+        city="Cidade",
+        state="EX"
     )
 
-    result = await create_company.new_company()
-    print(f" Company successfully created : {result}")
+    result = await company.new_company()
+    print(result)
 
     await close_database()
 
-
-if __name__ == "__main__":
-    asyncio.run(create_my_company())
-
+asyncio.run(create_my_company())
 ```
 
+---
 
-
-python main.py
-
-```
-python
-
-from qodo import main
-
-if __name__ == "__main__":
-    main()
-
+## 🏗️ Estrutura do Projeto
 
 ```
-
-
-# Ou use o comando instalado
-qodo-pdv
-
-📖 Documentação da API
-
-🔑 Autenticação
-
-A API usa JWT (JSON Web Tokens) para autenticação. Inclua no header:
-HTTP
-
-Authorization: Bearer seu_token_jwt
-
-📋 Endpoints Principais
-
-Categoria	Endpoint	Método	Descrição
-Auth	/api/v1/auth/login	POST	Login de usuário
-Auth	/api/v1/auth/register	POST	Cadastro de empresa
-Produtos	/api/v1/produtos/list	GET	Listar produtos
-Vendas	/api/v1/carrinho/adicionar	POST	Adicionar ao carrinho
-Vendas	/api/v1/carrinho/finalizar	POST	Finalizar venda
-Clientes	/api/v1/clientes/create	POST	Cadastrar cliente
-
-🌐 Acesse a Documentação Interativa
-
-Quando o servidor estiver rodando:
-
-    Swagger UI: http://localhost:8000/docs
-
-    ReDoc: http://localhost:8000/redoc
-
-    Health Check: http://localhost:8000/health
-
-⚙️ Configuração
-
-Variáveis de Ambiente (.env)
-
-Snippet de código
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=qodo_pdv
-DB_USER=seu_usuario
-DB_PASS=sua_senha
-
-JWT_SECRET_KEY=sua_chave_secreta_super_segura
-ALGORITHM=HS256
-DEBUG=True
-
-Configuração do Banco
-
-Python
-
-from qodo.conf.database import init_database
-
-# SQLite (Padrão - Desenvolvimento)
-await init_database()
-
-# MySQL (Produção)
-from qodo.conf.database import DatabaseConfig
-config = DatabaseConfig.get_mysql_config()
-if config:
-    await init_database(config)
-
-🎯 Exemplos Práticos
-
-Sistema de Vendas Completo
-
-Python
-
-from qodo.controllers.user.create_account import CreateCompany
-from qodo.controllers.products.products_infors import ProductController
-import asyncio
-
-async def configurar_sistema():
-    # 1. Criar empresa
-    empresa = CreateCompany(
-        full_name="Maria Santos",
-        email="maria@loja.com", 
-        password="123456",
-        company_name="Super Mercado Maria"
-    )
-    await empresa.new_company()
-    
-    # 2. Adicionar produtos
-    controller = ProductController()
-    await controller.create_product({
-        "name": "Arroz 5kg",
-        "product_code": "ARROZ001", 
-        "stock": 100,
-        "sale_price": 25.90
-    })
-    
-    # Adicione mais lógica aqui, como finalizar uma venda.
-
-Integração com Frontend
-
-JavaScript
-
-// Exemplo React/Vue usando Fetch
-const API_BASE = 'http://localhost:8000/api/v1';
-
-// Login
-async function login(email, password) {
-    const response = await fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `username=${email}&password=${password}`
-    });
-    return await response.json();
-}
-
-🏗️ Estrutura do Projeto
-
 qodo-pdv/
-├── 📁 src/qodo/
-│   ├── 📁 auth/                 # 🔐 Autenticação e Autorização
-│   ├── 📁 controllers/          # 🎮 Lógica de Negócio (Services/Controllers)
-│   ├── 📁 model/               # 🗃️ Modelos de Dados (Tortoise ORM)
-│   ├── 📁 routes/              # 🛣️ Rotas API (Endpoints FastAPI)
-│   ├── 📁 schemas/             # 📋 Schemas Pydantic (Validação de Entrada/Saída)
-│   └── 📁 conf/                # ⚙️ Configurações (DB, Settings)
-├── 📄 Main.py                  # 🚀 Ponto de Entrada Principal
-└── 📄 setup.py                 # 📦 Configuração do Pacote (PyPI)
+├── src/qodo/
+│   ├── auth/               # Autenticação / JWT
+│   ├── controllers/        # Regras de negócio
+│   ├── model/              # Models Tortoise ORM
+│   ├── routes/             # Endpoints FastAPI
+│   ├── schemas/            # Validação Pydantic
+│   └── conf/               # Configurações gerais
+├── main.py                 # Entrada do servidor
+└── setup.py                # Build do pacote
+```
 
-🤝 Contribuindo
+---
 
-Adoramos contribuições! Veja como ajudar:
+## 🤝 Contribuindo
 
-    Reportar Bugs: Abra uma issue detalhando o problema
+* Abra issues
+* Sugira funcionalidades
+* Envie PRs
+* Mantenha o padrão do projeto
 
-    Sugerir Funcionalidades: Compartilhe suas ideias
+---
 
-    Enviar Pull Requests (PRs):
+## 📄 Licença
 
-        Fork o projeto
+Este projeto usa a licença **MIT**.
+Leia o arquivo `LICENSE` para detalhes.
 
-        Crie uma branch: git checkout -b feature/nova-feature
-
-        Commit: git commit -m 'feat: Adiciona nova funcionalidade'
-
-        Push: git push origin feature/nova-feature
-
-        Abra um Pull Request
-
-📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
-
-📞 Contato
-
-Desenvolvedor: Gilderlan Silva Email: dacruzgg01@gmail.com GitHub: @Gilderlan0101 Projeto: Qodo PDV
+---
 
 <div align="center">
 
-🚀 Poupe semanas de desenvolvimento - Use Qodo PDV hoje!
+### 🚀 Desenvolvido por **Gilderlan Silva**
 
-Feito com ❤️ para a comunidade Python
+Email: **[dacruzgg01@gmail.com](mailto:dacruzgg01@gmail.com)**
+GitHub: **@Gilderlan0101**
 
-⭐ Não esqueça de dar uma estrela no repositório!
+⭐ Se este projeto te ajudou, deixe uma estrela!
 
 </div>
+
+---
+
